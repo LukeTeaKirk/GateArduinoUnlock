@@ -34,7 +34,6 @@ import android.os.Bundle;
 
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
-
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
@@ -61,8 +60,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 upload();
-                //SERVER_IP = "192.168.1.111";
-                SERVER_IP = "172.27.242.120";
+                SERVER_IP = "3.138.136.60";
                         // SERVER_IP = "2405:204:340b:3a26:501f:a126:ef32:565d";
                 SERVER_IP = SERVER_IP.trim();
                 String SERVER_PORTs = "63890";
@@ -81,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String[] params) {
-            BasicAWSCredentials awsCreds = new BasicAWSCredentials("", "");
+
+            BasicAWSCredentials awsCreds = new BasicAWSCredentials("AKIAYCG5WKDQAVEQLYMD", "EfPD9jZ9JHWoOwQsvVIxYV6zvu8hxKUEenRlivI8");
 
             AmazonS3 s3 = new AmazonS3Client(awsCreds);
             s3.deleteObject("dooropener", "example2.txt");
