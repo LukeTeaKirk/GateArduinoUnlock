@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String[] params) {
-            BasicAWSCredentials awsCreds = new BasicAWSCredentials("AKIAYCG5WKDQAVEQLYMD", "EfPD9jZ9JHWoOwQsvVIxYV6zvu8hxKUEenRlivI8");
+            BasicAWSCredentials awsCreds = new BasicAWSCredentials("", "");
 
             AmazonS3 s3 = new AmazonS3Client(awsCreds);
             s3.deleteObject("dooropener", "example2.txt");
