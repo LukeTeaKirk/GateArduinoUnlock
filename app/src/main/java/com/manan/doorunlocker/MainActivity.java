@@ -1,50 +1,23 @@
 package com.manan.doorunlocker;
-import android.annotation.SuppressLint;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-
-
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.auth.CognitoCachingCredentialsProvider;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.CopyObjectRequest;
-
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
     Thread Thread1 = null;
     TextView statusTV;
-    EditText etMessage;
+    TextView statusServer;
+    boolean flag;
     String SERVER_IP;
     int SERVER_PORT;
     @Override
@@ -56,10 +29,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Button btnConnect = findViewById(R.id.gateButton);
         statusTV = findViewById(R.id.StatusTV);
+        statusServer = findViewById(R.id.statusServer);
+
         btnConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                upload();
+                //upload();
                 SERVER_IP = "3.138.136.60";
                         // SERVER_IP = "2405:204:340b:3a26:501f:a126:ef32:565d";
                 SERVER_IP = SERVER_IP.trim();
@@ -70,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     public void upload() {
         SendfeedbackJob job = new SendfeedbackJob();
         String[] J = null;
@@ -80,13 +56,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String[] params) {
 
-            BasicAWSCredentials awsCreds = new BasicAWSCredentials("AKIAYCG5WKDQAVEQLYMD", "EfPD9jZ9JHWoOwQsvVIxYV6zvu8hxKUEenRlivI8");
+            /*BasicAWSCredentials awsCreds = new BasicAWSCredentials("AKIAYCG5WKDQAVEQLYMD", "EfPD9jZ9JHWoOwQsvVIxYV6zvu8hxKUEenRlivI8");
 
             AmazonS3 s3 = new AmazonS3Client(awsCreds);
             s3.deleteObject("dooropener", "example2.txt");
             CopyObjectRequest copyObjRequest = new CopyObjectRequest("dooropener", "example.txt", "dooropener", "example2.txt");
             s3.copyObject(copyObjRequest);
-            statusTV.setText("Open");
+            statusTV.setText("Open");*/
             return "some message";
         }
 
@@ -110,13 +86,23 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         //vMessages.setText("Connected\n");
+                        statusServer.setText("Live");
                         statusTV.setText("Open");
                     }
                 });
             } catch (IOException e) {
+                runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        statusServer.setText("Offline, inform manan plz");
+                        // Stuff that updates the UI
+
+                    }
+                });
                 e.printStackTrace();
             }
         }
     }
-
 }
+
